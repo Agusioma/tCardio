@@ -63,6 +63,7 @@ A SmartWatch app built on WearOS that helps in heart disease prediction.
 - Dependency Injection using **Dagger** and **Hilt**
 - **Coroutines** and **WorkManager** for the background sensing
 - **Room** ORM library for data storage
+- Both **Jetpack Compose** and **Views**
 
 3. ![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)
 
