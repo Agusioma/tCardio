@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">tCardio</string>
+    <string name="enable">Enable</string>
+    <string name="last_measured">Last measured:</string>
+    <string name="not_available">Not available on this device</string>
+    <string name="title_activity_presentation._tcardio_home">presentation.TcardioHome</string>
+    <string name="title_activity_tcardio_home">TcardioHome</string>
+
+    <string name="pred_caption">This is the probability of you getting a heart attack.</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">From the Square world,\nHello, %1$s!</string>
+    <string name="title_activity_prediction_screen">PredictionScreen</string>
+</resources>

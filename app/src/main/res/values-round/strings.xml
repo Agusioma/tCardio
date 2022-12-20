@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">tCardio</string>
+    <string name="enable">Enable</string>
+    <string name="last_measured">Last measured:</string>
+    <string name="not_available">Not available on this device</string>
+    <string name="hello_world">From the Round world,\nHello, %1$s!</string>
+    <string name="pred_caption">This is the probability of you getting a heart attack.</string>
+    <string name="title_activity_prediction_screen">PredictionScreen</string>
+</resources>
