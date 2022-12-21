@@ -12,7 +12,7 @@ A SmartWatch app built on WearOS that helps in heart disease prediction.
    <a href="https://github.com/Agusioma/tCardio"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Agusioma/tCardio">Screenshots</a>
+    <a href="https://github.com/Agusioma/tCardio#screenshots">Screenshots</a>
     ·
     <a href="https://github.com/Agusioma/tCardio/issues">Report Bug</a>
     ·
