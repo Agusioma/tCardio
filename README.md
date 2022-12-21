@@ -85,8 +85,6 @@ A SmartWatch app built on WearOS that helps in heart disease prediction.
 
 > It was used for creating [the TensorFlow](https://github.com/Agusioma/tcardio_model) model.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Screenshots
 
 ![](shot2.png)
