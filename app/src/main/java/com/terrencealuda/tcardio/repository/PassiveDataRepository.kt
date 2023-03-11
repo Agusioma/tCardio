@@ -30,11 +30,17 @@ class PassiveDataRepository @Inject constructor(
     private val database: TCardioDatabase
 ) {
 
-    val getLatestAvg: Flow<Double> = database.cardioDao().getLatestAvg()
+    val getLatestAvg: Flow<Double> = database.cardioDao().getLatestAvg().map {
+        it?:0.0
+    }
 
-    val getLatestVal: Flow<Double> = database.cardioDao().getLastBpm()
+    val getLatestVal: Flow<Double> = database.cardioDao().getLastBpm().map {
+        it?:0.0
+    }
 
-    val getMaxHeartBpm: Flow<Double> = database.cardioDao().getMaxBpm()
+    val getMaxHeartBpm: Flow<Double> = database.cardioDao().getMaxBpm().map {
+        it?:0.0
+    }
 
     val passiveDataEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[PASSIVE_DATA_ENABLED] ?: false
@@ -60,7 +66,9 @@ class PassiveDataRepository @Inject constructor(
     val latestVO2Max: Flow<Double> = dataStore.data.map { prefs ->
         prefs[LATEST_VO2_MAX] ?: 0.0
     }
-
+    val firsttimer: Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[FIRST_TIMER] ?: true
+    }
     suspend fun storePrediction(par0: Double){
         withContext(Dispatchers.IO){
             database.cardioDao().insertPred(Predictions(
@@ -72,6 +80,7 @@ class PassiveDataRepository @Inject constructor(
 
     suspend fun storeLatestData(par0: Double, par1: String) {
         dataStore.edit { prefs ->
+            prefs[FIRST_TIMER] = false
             when(par1){
                 "HEART_RATE_BPM" -> prefs[LATEST_HEART_RATE] = par0
                 "CALORIES" -> prefs[LATEST_CALORIES] = par0
@@ -98,6 +107,7 @@ class PassiveDataRepository @Inject constructor(
         private val LATEST_HEART_RATE = doublePreferencesKey("latest_heart_rate")
         private val LATEST_CALORIES = doublePreferencesKey("latest_calories")
         private val LATEST_VO2_MAX = doublePreferencesKey("latest_vo2")
+        private val FIRST_TIMER = booleanPreferencesKey("first_timer")
         /*
                 DataType.HEART_RATE_BPM,
         DataType.CALORIES,

@@ -1,11 +1,14 @@
 package com.terrencealuda.tcardio.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.material.icons.outlined.Settings
@@ -13,22 +16,30 @@ import androidx.compose.material.icons.rounded.MonitorHeart
 import androidx.compose.material.icons.rounded.OnlinePrediction
 import androidx.compose.material.icons.rounded.StackedLineChart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.wear.compose.material.*
 import com.terrencealuda.tcardio.MainViewModel
+import com.terrencealuda.tcardio.UiState
 import com.terrencealuda.tcardio.presentation.theme.TCardioTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @AndroidEntryPoint
 class TcardioHome : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
-
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,154 +47,249 @@ class TcardioHome : ComponentActivity() {
         var calMeasured: String = "221.0"
         var thalachh: String = "121"
 
-        lifecycleScope.launchWhenStarted{
-            mainViewModel.latestAvgBpms.collect {
-                val df = DecimalFormat("#.#")
-                df.roundingMode = RoundingMode.DOWN
-                thalachh = df.format(it)
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+                when (result) {
+                    true -> {
+                        Log.i("TCARDIO", "Body sensors permission granted")
+                        mainViewModel.togglePassiveData(true)
+                    }
+                    false -> {
+                        Log.i("TCARDIO", "Body sensors permission not granted")
+                        mainViewModel.togglePassiveData(false)
+                    }
+                }
             }
 
-        }
-        lifecycleScope.launchWhenStarted {
+        permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
 
-            mainViewModel.lastBpm.collect {
-                heartRateBpm = it.toString()
+        lifecycleScope.launch {
+            // repeatOnLifecycle launches the block in a new coroutine every time the
+            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Trigger the flow and start listening for values.
+                // Note that this happens when lifecycle is STARTED and stops
+                // collecting when the lifecycle is STOPPED
+                var hey = mainViewModel.firsttimercheck.collect()
+                if (hey.equals(false)) {
+                    mainViewModel.latestAvgBpms.collect {
+                        val df = DecimalFormat("#.#")
+                        df.roundingMode = RoundingMode.DOWN
+                        thalachh = df.format(it)
+                    }
+                } else {
+                    thalachh = 0.0.toString()
+                }
+
+
+                if (hey.equals(false)) {
+                    mainViewModel.lastBpm.collect {
+                        heartRateBpm = it.toString()
+                    }
+                } else {
+                    heartRateBpm = 0.0.toString()
+                }
+
+
+                /* latestNewsViewModel.uiState.collect { uiState ->
+                     // New value received
+                     when (uiState) {
+                         is LatestNewsUiState.Success -> showFavoriteNews(uiState.news)
+                         is LatestNewsUiState.Error -> showError(uiState.exception)
+                     }
+                 }*/
             }
-
         }
+
+        /* lifecycleScope.launchWhenStarted {
+           //  var hey = mainViewModel.firsttimercheck.collect()
+           //  if(hey.equals(false)) {
+                 mainViewModel.latestAvgBpms.collect {
+                     val df = DecimalFormat("#.#")
+                     df.roundingMode = RoundingMode.DOWN
+                     thalachh = df.format(it)
+                 }
+          /*   }else{
+                 thalachh = 0.0.toString()
+             }*/
+         }*/
+        /* lifecycleScope.launchWhenStarted {
+            // var hey = mainViewModel.firsttimercheck.collect()
+            // if(hey.equals(false)) {
+                 mainViewModel.lastBpm.collect {
+                     heartRateBpm = it.toString()
+                 }
+            /* }else{
+                 heartRateBpm = 0.0.toString()
+             }*/
+
+
+         }*/
         /*lifecycleScope.launch(Dispatchers.Main) {
             mainViewModel.lastBpm.collect {
                 Log.i("IIII", it.toString())
             }
         }*/
 
-        setContent {
+        /*setContent {
             WearApp(heartRateBpm, calMeasured, thalachh)
+        }*/
+        setContent {
+            WearApp()
         }
-
+        /*setContent {
+            WearApp(heartRateBpm, calMeasured, thalachh)
+        }*/
     }
 }
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun WearApp(heartRateBpm: String, par1: String, par2:String) {
+fun WearApp() {
 
     TCardioTheme {
-        val listState = rememberScalingLazyListState()
 
-        val childrenMods = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 12.dp,
-                end = 12.dp,
-                top = 8.dp,
-                bottom = 8.dp
-            )
+            val listState = rememberScalingLazyListState()
 
-        val childTextMods = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 12.dp,
-                end = 12.dp,
-                top = 1.dp,
-                bottom = 1.dp
-            )
-
-        val iconMods = Modifier
-            .size(24.dp)
-            .wrapContentSize(align = Alignment.Center)
-
-        Scaffold(
-            timeText = {
-                if (!listState.isScrollInProgress) {
-                    TimeText()
-                }
-            },
-            modifier = Modifier.padding(top = 0.dp),
-            vignette = {
-                Vignette(vignettePosition = VignettePosition.TopAndBottom)
-            },
-            positionIndicator = {
-                PositionIndicator(
-                    scalingLazyListState = listState
+            val childrenMods = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 12.dp,
+                    end = 12.dp,
+                    top = 8.dp,
+                    bottom = 8.dp
                 )
-            }
-        ) {
-            ScalingLazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background),
-                state = listState,
-                horizontalAlignment = Alignment.CenterHorizontally
+
+            val childTextMods = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 12.dp,
+                    end = 12.dp,
+                    top = 1.dp,
+                    bottom = 1.dp
+                )
+
+            val iconMods = Modifier
+                .size(24.dp)
+                .wrapContentSize(align = Alignment.Center)
+
+            Scaffold(
+                timeText = {
+                    if (!listState.isScrollInProgress) {
+                        TimeText()
+                    }
+                },
+                modifier = Modifier.padding(top = 0.dp),
+                vignette = {
+                    Vignette(vignettePosition = VignettePosition.TopAndBottom)
+                },
+                positionIndicator = {
+                    PositionIndicator(
+                        scalingLazyListState = listState
+                    )
+                }
             ) {
-                item { ScreenTitle(childTextMods, "tCardio") }
-                item { ScreenBigTitle(childTextMods, "Today") }
-                item {
+                val viewModel: MainViewModel = viewModel()
+                val uiState by viewModel.uiState.collectAsState()
+                var thalachhTxt = "0.0"
+                var heartRateBpmTxt = "0.0"
+                //val coroutineScope = rememberCoroutineScope()
+                val firsttimer by viewModel.firsttimercheck.collectAsState(initial = true)
+                //val thalachh by viewModel.latestAvgBpms.collectAsState(initial = 0.0)
+                //val heartRateBpm by viewModel.latestHeartRate.collectAsState(initial = 0.0)
 
-                    CardioColumn(
-                        iconMods,
-                        childTextMods,
-                        heartRateBpm,
-                        "Heart rate",
-                        Icons.Rounded.MonitorHeart
-                    )
-                }
-                /*item {
-                    CardioColumn(
-                        iconMods,
-                        childTextMods,
-                        "0",
-                        "Steps",
-                        Icons.Rounded.DirectionsWalk
-                    )
-                }
-                item { ScreenTitle(
-                    childTextMods
-                        .size(22.dp)
-                        .padding(top = 3.dp) , "Blood metrics") }*/
-                item{
-                    CardioRow(
-                        textMods = childTextMods,
-                        countLabel1 = par1,
-                        healthDataLabel1 = "Cal",
-                        countLabel2 = par2,
-                        healthDataLabel2 = "Thalachh"
-                    )
-                }
+                if (firsttimer.equals(false)) {
+                    val thalachh by viewModel.latestAvgBpms.collectAsState(initial = 0.0)
+                    val heartRateBpm by viewModel.latestHeartRate.collectAsState(initial = 0.0)
 
-               /* item {
-                    CardioColumnNoIcon(
-                        childTextMods,
-                        "1000",
-                        "Calories"
-                    )
-                }*/
-                item {
-                    CardioChip(
-                        childrenMods, iconMods, "Health data\nstatus",
-                        Icons.Outlined.HealthAndSafety,
-                        1
+                    thalachhTxt = thalachh.toString()
+                    heartRateBpmTxt = heartRateBpm.toString()
+                    val df = DecimalFormat("#.#")
+                    df.roundingMode = RoundingMode.DOWN
+                    var thalachhF = df.format(thalachh)
+                    thalachhTxt = thalachhF.toString()
+                }
+                ScalingLazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background),
+                    state = listState,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                    )
-                }
-                item {
-                    CardioChip(
-                        childrenMods, iconMods, "Heart Attack\n prediction",
-                        Icons.Rounded.OnlinePrediction,
-                        2
-                    )
-                }
-                item {
-                    CardioChip(
-                        childrenMods, iconMods, "Health Data\nstatistics",
-                        Icons.Rounded.StackedLineChart
-                    )
-                }
-                item {
-                    CardioChip(
-                        childrenMods, iconMods, "Settings",
-                        Icons.Outlined.Settings
-                    )
+                    if (uiState is UiState.Startup) {
+                        item { CustomCircularProgressBar() }
+                    } else {
+                    item { ScreenTitle(childTextMods, "tCardio") }
+                    item { ScreenBigTitle(childTextMods, "Today") }
+                    item {
+
+
+                        CardioColumn(
+                            iconMods,
+                            childTextMods,
+                            heartRateBpmTxt,
+                            "Heart rate",
+                            Icons.Rounded.MonitorHeart
+                        )
+                    }
+                    /*item {
+                        CardioColumn(
+                            iconMods,
+                            childTextMods,
+                            "0",
+                            "Steps",
+                            Icons.Rounded.DirectionsWalk
+                        )
+                    }
+                    item { ScreenTitle(
+                        childTextMods
+                            .size(22.dp)
+                            .padding(top = 3.dp) , "Blood metrics") }*/
+                    item {
+                        CardioRow(
+                            textMods = childTextMods,
+                            countLabel1 = "0",
+                            healthDataLabel1 = "Cal",
+                            countLabel2 = thalachhTxt,
+                            healthDataLabel2 = "Thalachh"
+                        )
+                    }
+
+                    /* item {
+                         CardioColumnNoIcon(
+                             childTextMods,
+                             "1000",
+                             "Calories"
+                         )
+                     }*/
+                    item {
+                        CardioChip(
+                            childrenMods, iconMods, "Health data\nstatus",
+                            Icons.Outlined.HealthAndSafety,
+                            1
+
+                        )
+                    }
+                    item {
+                        CardioChip(
+                            childrenMods, iconMods, "Heart Attack\n prediction",
+                            Icons.Rounded.OnlinePrediction,
+                            2
+                        )
+                    }
+                    item {
+                        CardioChip(
+                            childrenMods, iconMods, "Health Data\nstatistics",
+                            Icons.Rounded.StackedLineChart
+                        )
+                    }
+                    item {
+                        CardioChip(
+                            childrenMods, iconMods, "Settings",
+                            Icons.Outlined.Settings
+                        )
+                    }
                 }
             }
         }
@@ -191,10 +297,10 @@ fun WearApp(heartRateBpm: String, par1: String, par2:String) {
 }
 
 /*@Preview(
-    device = Devices.WEAR_OS_SMALL_ROUND,
-    showSystemUi = true
+device = Devices.WEAR_OS_SMALL_ROUND,
+showSystemUi = true
 )
 @Composable
 fun DefaultPreview() {
-    WearApp()
+WearApp()
 }*/

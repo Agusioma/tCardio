@@ -89,6 +89,7 @@ dependencies {
 
     // Wear
     implementation 'androidx.wear:wear:1.2.0'
+
     // Health Services
     implementation 'androidx.health:health-services-client:1.0.0-beta01'
     // Used to bridge between Futures and coroutines

@@ -22,6 +22,7 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Startup)
     val uiState: StateFlow<UiState> = _uiState
 
+    val firsttimercheck = repository.firsttimer
     val latestAvgBpms = repository.getLatestAvg
     val lastBpm = repository.getLatestVal
     val maxBpm = repository.getMaxHeartBpm

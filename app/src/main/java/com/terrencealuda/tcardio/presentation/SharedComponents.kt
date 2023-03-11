@@ -88,7 +88,7 @@ fun CardioRow(
     healthDataLabel2: String
 ) {
     Row(verticalAlignment = Alignment.CenterVertically,
-       horizontalArrangement = Arrangement.SpaceAround ,
+        horizontalArrangement = Arrangement.SpaceAround ,
         modifier = Modifier.padding(top = 10.dp).fillMaxWidth()) {
         Column( horizontalAlignment = Alignment.Start ) {
             Text(
@@ -215,6 +215,16 @@ fun ScreenBigTitle(mod: Modifier, titleText:String) {
         color = Color(0xFFe62000),
         text = titleText
     )
+}
+
+@Composable
+fun CustomCircularProgressBar(){
+    CircularProgressIndicator(
+        modifier = Modifier.size(45.dp),
+        trackColor = Color(0xFF00cc7a),
+        indicatorColor = Color.Black,
+        strokeWidth = 4.dp)
+
 }
 
 // Chip Preview
