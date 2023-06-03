@@ -170,7 +170,7 @@ fun WearApp() {
                 )
 
             val iconMods = Modifier
-                .size(24.dp)
+                .size(36.dp)
                 .wrapContentSize(align = Alignment.Center)
 
             Scaffold(
@@ -229,8 +229,8 @@ fun WearApp() {
                             iconMods,
                             childTextMods,
                             heartRateBpmTxt,
-                            "Heart rate",
-                            Icons.Rounded.MonitorHeart
+                            "Heart rate"
+                            /*Icons.Rounded.MonitorHeart*/
                         )
                     }
                     /*item {

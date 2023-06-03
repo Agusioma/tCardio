@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -21,17 +22,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.terrencealuda.tcardio.R
-import com.terrencealuda.tcardio.presentation.theme.wearColorPalette
 
-val tCardioFamily = FontFamily(
+val tCardioDigitFamily = FontFamily(
+
+    Font(R.font.carlito_regular, FontWeight.Light),
+    Font(R.font.carlito_regular, FontWeight.Normal),
+    Font(R.font.carlito_italic, FontWeight.Normal, FontStyle.Italic),
+    //Font(R.font.redhatdisplay_medium, FontWeight.Medium),
+    Font(R.font.carlito_bolditalic, FontWeight.Bold, FontStyle.Italic),
+    Font(R.font.carlito_bold, FontWeight.Bold)
+)
+
+val tCardioTextFamily = FontFamily(
     Font(R.font.redhatdisplay_light, FontWeight.Light),
     Font(R.font.redhatdisplay_regular, FontWeight.Normal),
     Font(R.font.redhatdisplay_italic, FontWeight.Normal, FontStyle.Italic),
     Font(R.font.redhatdisplay_medium, FontWeight.Medium),
     Font(R.font.redhatdisplay_bold, FontWeight.Bold)
 )
-
-
 
 @Composable
 fun CardioChip(
@@ -61,7 +69,7 @@ fun CardioChip(
         label = {
 
             Text(
-                fontFamily = tCardioFamily,
+                fontFamily = tCardioTextFamily,
                 text = displayText,
                 maxLines = 2,
                 color = Color.LightGray,
@@ -92,7 +100,7 @@ fun CardioRow(
         modifier = Modifier.padding(top = 10.dp).fillMaxWidth()) {
         Column( horizontalAlignment = Alignment.Start ) {
             Text(
-                fontFamily = tCardioFamily,
+                fontFamily = tCardioDigitFamily,
                 //modifier = textMods.padding(3.dp),
                 fontSize = 25.sp,
                 textAlign = TextAlign.Start,
@@ -100,7 +108,7 @@ fun CardioRow(
                 text = countLabel1
             )
             Text(
-                fontFamily = tCardioFamily,
+                fontFamily = tCardioTextFamily,
                 //modifier = textMods,
                 textAlign = TextAlign.Start ,
                 color = Color(0xFFe62000),
@@ -110,7 +118,7 @@ fun CardioRow(
 
         Column( horizontalAlignment = Alignment.End){
             Text(
-                fontFamily = tCardioFamily,
+                fontFamily = tCardioDigitFamily,
                 //modifier = textMods.padding(3.dp),
                 fontSize = 25.sp,
                 textAlign = TextAlign.Start,
@@ -118,7 +126,7 @@ fun CardioRow(
                 text = countLabel2
             )
             Text(
-                fontFamily = tCardioFamily,
+                fontFamily = tCardioTextFamily,
                 //modifier = textMods,
                 textAlign = TextAlign.Start ,
                 color = Color(0xFFe62000),
@@ -135,20 +143,21 @@ fun CardioColumn(
     iconModifier: Modifier,
     textMods: Modifier,
     countLabel: String,
-    healthDataLabel: String,
-    itemIcon: ImageVector
+    healthDataLabel: String
+    /*itemIcon: ImageVector*/
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(top = 10.dp)
     ) {
         Icon(
-            imageVector = itemIcon,
+            /*imageVector = itemIcon,*/
+            painter = painterResource(R.drawable.cardiology_48px),
             contentDescription = "triggers meditation action",
             modifier = iconModifier
         )
         Text(
-            fontFamily = tCardioFamily,
+            fontFamily = tCardioDigitFamily,
             modifier = textMods.padding(3.dp),
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
@@ -156,7 +165,7 @@ fun CardioColumn(
             text = countLabel
         )
         Text(
-            fontFamily = tCardioFamily,
+            fontFamily = tCardioDigitFamily,
             modifier = textMods,
             textAlign = TextAlign.Center,
             color = Color(0xFF00cc7a),
@@ -176,7 +185,7 @@ fun CardioColumnNoIcon(
         modifier = Modifier.padding(top = 10.dp)
     ) {
         Text(
-            fontFamily = tCardioFamily,
+            fontFamily = tCardioDigitFamily,
             modifier = textMods.padding(3.dp),
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
@@ -184,7 +193,7 @@ fun CardioColumnNoIcon(
             text = countLabel
         )
         Text(
-            fontFamily = tCardioFamily,
+            fontFamily = tCardioDigitFamily,
             modifier = textMods,
             textAlign = TextAlign.Center,
             color = Color(0xFF999999),
@@ -196,7 +205,7 @@ fun CardioColumnNoIcon(
 @Composable
 fun ScreenTitle(mod: Modifier, titleText: String) {
     Text(
-        fontFamily = tCardioFamily,
+        fontFamily = tCardioTextFamily,
         modifier = mod,
         textAlign = TextAlign.Center,
         color = Color(0xFFe62000),
@@ -207,7 +216,7 @@ fun ScreenTitle(mod: Modifier, titleText: String) {
 @Composable
 fun ScreenBigTitle(mod: Modifier, titleText:String) {
     Text(
-        fontFamily = tCardioFamily,
+        fontFamily = tCardioTextFamily,
         modifier = mod,
         textAlign = TextAlign.Center,
         fontSize = 22.sp,
