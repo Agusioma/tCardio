@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bronze">#CD7F32</color>
+    <color name="green">#00cc7a</color>
+    <color name="grey">#adb6b8</color>
+    <color name="prediction_color">#ff6b00</color>
+</resources>

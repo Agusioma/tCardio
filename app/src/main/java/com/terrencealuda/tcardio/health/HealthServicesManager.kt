@@ -18,19 +18,20 @@ class HealthServicesManager @Inject constructor(
     private val passiveMonitoringClient = healthServicesClient.passiveMonitoringClient
     private val dataTypes = setOf(
         DataType.HEART_RATE_BPM,
+        DataType.CALORIES_DAILY,
+        DataType.STEPS_DAILY
         /*DataType.CALORIES
          DataType.VO2_MAX,
         DataType.STEPS*/)
 
-    suspend fun hasHeartRateCapability(dataType: String): Boolean {
+    suspend fun hasHealthDataCapability(dataType: String): Boolean {
         val capabilities = passiveMonitoringClient.getCapabilitiesAsync().await()
         var targetDType: Any = ""
         val supportedDTypes = capabilities.supportedDataTypesPassiveMonitoring
         when(dataType){
             "HEART_RATE_BPM" -> targetDType = DataType.HEART_RATE_BPM
             "CALORIES" -> targetDType = DataType.CALORIES
-            "VO2_MAX" -> targetDType = DataType.VO2_MAX
-            "STEPS" -> targetDType = DataType.STEPS
+            "STEPS_DAILY" -> targetDType = DataType.STEPS_DAILY
             else -> {
                 targetDType = "None"
             }

@@ -27,17 +27,23 @@ class MainViewModel @Inject constructor(
     val lastBpm = repository.getLatestVal
     val maxBpm = repository.getMaxHeartBpm
 
+    val latestCal = repository.latestCals
+    val lastTenPredictions = repository.getLastTenPredictions
+    val latestSteps = repository.latestSteps
+
     val passiveDataEnabled: Flow<Boolean>
     val latestHeartRate = repository.latestHeartRate
+
+    //val hasHeart
 
     init {
         // Check that the device has the heart rate capability and progress to the next state
         // accordingly.
         viewModelScope.launch {
-            _uiState.value = if (healthServicesManager.hasHeartRateCapability("HEART_RATE_BPM")) {
-                UiState.HeartRateAvailable
+            _uiState.value = if (healthServicesManager.hasHealthDataCapability("HEART_RATE_BPM")) {
+                UiState.HealthDataAvailable
             } else {
-                UiState.HeartRateNotAvailable
+                UiState.HealthDataNotAvailable
             }
         }
 
@@ -62,6 +68,6 @@ class MainViewModel @Inject constructor(
 
 sealed class UiState {
     object Startup: UiState()
-    object HeartRateAvailable: UiState()
-    object HeartRateNotAvailable: UiState()
+    object HealthDataAvailable: UiState()
+    object HealthDataNotAvailable: UiState()
 }

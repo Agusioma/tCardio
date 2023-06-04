@@ -3,8 +3,8 @@ package com.terrencealuda.tcardio.health
 import androidx.health.services.client.PassiveListenerService
 import androidx.health.services.client.data.*
 import com.terrencealuda.tcardio.repository.PassiveDataRepository
-import com.terrencealuda.tcardio.repository.latestCalRate
 import com.terrencealuda.tcardio.repository.latestDataRate
+import com.terrencealuda.tcardio.repository.latestIntervalDataPointSum
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -20,13 +20,18 @@ class PassiveDataService : PassiveListenerService() {
                 repository.storeLatestData(it,"HEART_RATE_BPM")
             }
 
-           /* dataPoints.getData(DataType.VO2_MAX).latestDataRate("VO2_MAX")?.let {
-                repository.storeLatestData(it,"VO2_MAX")
-            }*/
-
-            dataPoints.getData(DataType.CALORIES ).latestCalRate("CALORIES")?.let {
+            dataPoints.getData(DataType.CALORIES_DAILY ).latestIntervalDataPointSum("CALORIES")?.let {
                 repository.storeLatestData(it,"CALORIES")
             }
+
+            dataPoints.getData(DataType.STEPS_DAILY).latestIntervalDataPointSum("CALORIES")?.let{
+                repository.storeLatestLongData(it, "STEPS_DAILY")
+            }
+           /*dataPoints.getData(DataType.STEPS).latestDataRate("STEPS")?.let {
+                repository.storeLatestData(it,"STEPS")
+            }*/
+
+
 
         }
     }
