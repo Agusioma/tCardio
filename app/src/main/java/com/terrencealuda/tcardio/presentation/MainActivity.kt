@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launchWhenStarted {
             viewModel.passiveDataEnabled.collect {
-               binding.enablePassiveData.isChecked = it
+                binding.enablePassiveData.isChecked = it
             }
         }
     }
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
         // These views are visible when the capability is available.
         (uiState is UiState.HealthDataAvailable).let {
-           /// binding.enablePassiveData.isVisible = it
+            /// binding.enablePassiveData.isVisible = it
             binding.lastMeasuredLabel.isVisible = it
             binding.lastMeasuredValue.isVisible = it
             binding.heart.isVisible = it

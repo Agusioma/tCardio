@@ -36,6 +36,9 @@ class HealthServicesManager @Inject constructor(
                 targetDType = "None"
             }
         }
+        /*Log.w("AVAILABILITY HEART_RATE_BPM", (DataType.HEART_RATE_BPM in supportedDTypes).toString())
+        Log.w("AVAILABILITY CALORIES", (DataType.CALORIES in supportedDTypes).toString())
+        Log.w("AVAILABILITY STEPS_DAILY", (DataType.STEPS_DAILY in supportedDTypes).toString())*/
         return (targetDType in supportedDTypes)
     }
 

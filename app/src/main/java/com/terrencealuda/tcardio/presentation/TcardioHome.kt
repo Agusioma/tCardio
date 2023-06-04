@@ -1,5 +1,7 @@
 package com.terrencealuda.tcardio.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -24,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -51,7 +55,8 @@ class TcardioHome : ComponentActivity() {
         var calMeasured: String = "221.0"
         var thalachh: String = "121"
 
-        permissionLauncher =
+        //if (!allPermissionsGranted()) ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+      /* permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
                 when (result) {
                     true -> {
@@ -64,9 +69,14 @@ class TcardioHome : ComponentActivity() {
                         mainViewModel.togglePassiveData(false)
                     }
                 }
-            }
+            }*/
+        if (!allPermissionsGranted()) ActivityCompat.requestPermissions(this,
+            REQUIRED_PERMISSIONS,
+            REQUEST_CODE_PERMISSIONS
+        )
 
-        permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
+        /*permissionLauncher.launch(Manifest.permission.BODY_SENSORS)
+        permissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION)*/
 
         lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
@@ -146,6 +156,34 @@ class TcardioHome : ComponentActivity() {
             WearApp(heartRateBpm, calMeasured, thalachh)
         }*/
     }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults:
+        IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                Log.i("PERMISSIONS","Permissions granted by the user.")
+            } else {
+                Log.i("PERMISSIONS","Permissions not granted by the user.")
+                finish()
+            }
+        }
+    }
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS =
+            mutableListOf (
+                Manifest.permission.BODY_SENSORS,
+                Manifest.permission.ACTIVITY_RECOGNITION
+            ).toTypedArray()
+    }
+
 }
 
 @OptIn(ExperimentalWearMaterialApi::class)
@@ -216,6 +254,9 @@ fun WearApp() {
                 val heartRateBpm by viewModel.latestHeartRate.collectAsState(initial = 0.0)
                 val latest_cals by viewModel.latestCal.collectAsState(initial = 0.0)
                 val lastTenPredictions by viewModel.lastTenPredictions.collectAsState(initial = listOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+                val latestSteps by viewModel.latestSteps.collectAsState(initial = 0)
+                
+                stepsTaken = latestSteps.toString()
                 var tempPrevPrediction = lastTenPredictions[1].toString()
                 prevPrediction = "$tempPrevPrediction%"
                 userCals = latest_cals.toString()

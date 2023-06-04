@@ -181,7 +181,7 @@ fun List<IntervalDataPoint<Double>>.latestIntervalDataPointSum(dType: String): D
     var targetDType: Any = ""
 
     when(dType){
-        "CALORIES" -> targetDType = DataType.CALORIES
+        "CALORIES" -> targetDType = DataType.CALORIES_DAILY
         else -> {
             targetDType = "None"
         }
