@@ -36,7 +36,8 @@ class StartupReceiver : BroadcastReceiver() {
             if (repository.passiveDataEnabled.first()) {
                 // Make sure we have permission.
                 val result = context.checkSelfPermission(android.Manifest.permission.BODY_SENSORS)
-                if (result == PackageManager.PERMISSION_GRANTED) {
+                val result2 = context.checkSelfPermission(android.Manifest.permission.ACTIVITY_RECOGNITION)
+                if ((result == PackageManager.PERMISSION_GRANTED) && (result2 == PackageManager.PERMISSION_GRANTED)){
                     scheduleWorker(context)
                 } else {
                     // We may have lost the permission somehow. Mark that background data is

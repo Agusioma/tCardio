@@ -1,5 +1,6 @@
 package com.terrencealuda.tcardio.health
 
+import android.util.Log
 import androidx.health.services.client.PassiveListenerService
 import androidx.health.services.client.data.*
 import com.terrencealuda.tcardio.repository.PassiveDataRepository
@@ -19,14 +20,15 @@ class PassiveDataService : PassiveListenerService() {
             dataPoints.getData(DataType.HEART_RATE_BPM).latestDataRate("HEART_RATE_BPM")?.let {
                 repository.storeLatestData(it,"HEART_RATE_BPM")
             }
-
-            dataPoints.getData(DataType.CALORIES_DAILY ).latestIntervalDataPointSum("CALORIES")?.let {
-                repository.storeLatestData(it,"CALORIES")
+            Log.i("STORED HBP", "STORED")
+           /*dataPoints.getData(DataType.CALORIES_DAILY ).latestIntervalDataPointSum("CALORIES_DAILY")?.let {
+                repository.storeLatestData(it,"CALORIES_DAILY")
             }
-
-            dataPoints.getData(DataType.STEPS_DAILY).latestIntervalDataPointSum("CALORIES")?.let{
+            Log.i("STORED KCALS", "STORED")
+            dataPoints.getData(DataType.STEPS_DAILY).latestIntervalDataPointSum("STEPS_DAILY")?.let{
                 repository.storeLatestLongData(it, "STEPS_DAILY")
-            }
+            }*/
+            Log.i("STORED STEPS", "STORED")
            /*dataPoints.getData(DataType.STEPS).latestDataRate("STEPS")?.let {
                 repository.storeLatestData(it,"STEPS")
             }*/
@@ -35,5 +37,6 @@ class PassiveDataService : PassiveListenerService() {
 
         }
     }
+
 
 }

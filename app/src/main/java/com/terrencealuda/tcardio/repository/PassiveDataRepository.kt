@@ -63,14 +63,14 @@ class PassiveDataRepository @Inject constructor(
     }
 
     val latestHeartRate: Flow<Double> = dataStore.data.map { prefs ->
-        prefs[LATEST_HEART_RATE] ?: 0.0
+        prefs[LATEST_HEART_RATE] ?: 78.9
     }
     val latestCals: Flow<Double> = dataStore.data.map { prefs ->
-        prefs[LATEST_CALORIES] ?: 0.0
+        prefs[LATEST_CALORIES] ?: 44.9
     }
 
     val latestSteps: Flow<Long> = dataStore.data.map { prefs ->
-        prefs[STEPS_DAILY]?:0
+        prefs[STEPS_DAILY]?:878
     }
 
     val firsttimer: Flow<Boolean> = dataStore.data.map { prefs ->
@@ -90,7 +90,8 @@ class PassiveDataRepository @Inject constructor(
             prefs[FIRST_TIMER] = false
             when(par1){
                 "HEART_RATE_BPM" -> prefs[LATEST_HEART_RATE] = par0
-                "CALORIES" -> prefs[LATEST_CALORIES] = par0
+                "CALORIES_DAILY" -> prefs[LATEST_CALORIES] = par0
+               /* "CALORIES" -> prefs[LATEST_CALORIES] = par0*/
                // "VO2_MAX" -> prefs[LATEST_VO2_MAX] = par0
                 else -> {
                     false
@@ -120,8 +121,6 @@ class PassiveDataRepository @Inject constructor(
             }
 
         }
-
-
 
       /*  withContext(Dispatchers.IO){
             database.cardioDao().insertBpm(HeartBpm(
@@ -181,7 +180,7 @@ fun List<IntervalDataPoint<Double>>.latestIntervalDataPointSum(dType: String): D
     var targetDType: Any = ""
 
     when(dType){
-        "CALORIES" -> targetDType = DataType.CALORIES_DAILY
+        "CALORIES_DAILY" -> targetDType = DataType.CALORIES_DAILY
         else -> {
             targetDType = "None"
         }
@@ -190,11 +189,7 @@ fun List<IntervalDataPoint<Double>>.latestIntervalDataPointSum(dType: String): D
     return this
         .filter { it.dataType == targetDType }
         .filter {
-            it.accuracy == null ||
-                    setOf(
-                        ACCURACY_HIGH,
-                        ACCURACY_MEDIUM
-                    ).contains((it.accuracy as HeartRateAccuracy).sensorStatus)
+            it.accuracy == null
         }
         .filter {
             it.value > 0
@@ -216,11 +211,7 @@ fun List<IntervalDataPoint<Long>>.latestIntervalDataPointSum(dType: String): Lon
     return this
         .filter { it.dataType == targetDType }
         .filter {
-            it.accuracy == null ||
-                    setOf(
-                        ACCURACY_HIGH,
-                        ACCURACY_MEDIUM
-                    ).contains((it.accuracy as HeartRateAccuracy).sensorStatus)
+            it.accuracy == null
         }
         .filter {
             it.value > 0

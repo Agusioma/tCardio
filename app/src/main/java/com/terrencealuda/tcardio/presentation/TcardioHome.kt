@@ -241,7 +241,7 @@ fun WearApp() {
             var thalachhTxt = "0.0"
             var heartRateBpmTxt = "0.0"
             var stepsTaken = "0"
-            var prevPrediction = "0.0%"
+            var prevPrediction = "86.0%"
             var userCals = "0.0"
 
             //val coroutineScope = rememberCoroutineScope()

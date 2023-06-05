@@ -30,7 +30,7 @@ class HealthServicesManager @Inject constructor(
         val supportedDTypes = capabilities.supportedDataTypesPassiveMonitoring
         when(dataType){
             "HEART_RATE_BPM" -> targetDType = DataType.HEART_RATE_BPM
-            "CALORIES" -> targetDType = DataType.CALORIES
+            "CALORIES_DAILY" -> targetDType = DataType.CALORIES_DAILY
             "STEPS_DAILY" -> targetDType = DataType.STEPS_DAILY
             else -> {
                 targetDType = "None"
