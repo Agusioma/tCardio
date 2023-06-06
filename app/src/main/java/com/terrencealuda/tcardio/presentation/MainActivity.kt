@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launchWhenStarted {
             viewModel.passiveDataEnabled.collect {
-               binding.enablePassiveData.isChecked = it
+                binding.enablePassiveData.isChecked = it
             }
         }
     }
@@ -77,13 +77,13 @@ class MainActivity : AppCompatActivity() {
             binding.progress.isVisible = it
         }
         // These views are visible when heart rate capability is not available.
-        (uiState is UiState.HeartRateNotAvailable).let {
+        (uiState is UiState.HealthDataNotAvailable).let {
             //binding.brokenHeart.isVisible = it
             //binding.notAvailable.isVisible = it
         }
         // These views are visible when the capability is available.
-        (uiState is UiState.HeartRateAvailable).let {
-           /// binding.enablePassiveData.isVisible = it
+        (uiState is UiState.HealthDataAvailable).let {
+            /// binding.enablePassiveData.isVisible = it
             binding.lastMeasuredLabel.isVisible = it
             binding.lastMeasuredValue.isVisible = it
             binding.heart.isVisible = it

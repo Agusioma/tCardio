@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.HeartRateAccuracy
 import androidx.health.services.client.data.HeartRateAccuracy.SensorStatus.Companion.ACCURACY_HIGH
@@ -38,6 +39,10 @@ class PassiveDataRepository @Inject constructor(
         it?:0.0
     }
 
+    val getLastTenPredictions:Flow<List<Double>> = database.cardioDao().getRecentTenPreds().map {
+        it?:listOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    }
+
     val getMaxHeartBpm: Flow<Double> = database.cardioDao().getMaxBpm().map {
         it?:0.0
     }
@@ -58,14 +63,16 @@ class PassiveDataRepository @Inject constructor(
     }
 
     val latestHeartRate: Flow<Double> = dataStore.data.map { prefs ->
-        prefs[LATEST_HEART_RATE] ?: 0.0
+        prefs[LATEST_HEART_RATE] ?: 78.9
     }
     val latestCals: Flow<Double> = dataStore.data.map { prefs ->
-        prefs[LATEST_CALORIES] ?: 0.0
+        prefs[LATEST_CALORIES] ?: 44.9
     }
-    val latestVO2Max: Flow<Double> = dataStore.data.map { prefs ->
-        prefs[LATEST_VO2_MAX] ?: 0.0
+
+    val latestSteps: Flow<Long> = dataStore.data.map { prefs ->
+        prefs[STEPS_DAILY]?:878
     }
+
     val firsttimer: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[FIRST_TIMER] ?: true
     }
@@ -83,15 +90,17 @@ class PassiveDataRepository @Inject constructor(
             prefs[FIRST_TIMER] = false
             when(par1){
                 "HEART_RATE_BPM" -> prefs[LATEST_HEART_RATE] = par0
-                "CALORIES" -> prefs[LATEST_CALORIES] = par0
-                "VO2_MAX" -> prefs[LATEST_VO2_MAX] = par0
-               // "STEPS" -> prefs[LATEST_VO2_MAX] = par0
+                "CALORIES_DAILY" -> prefs[LATEST_CALORIES] = par0
+               /* "CALORIES" -> prefs[LATEST_CALORIES] = par0*/
+               // "VO2_MAX" -> prefs[LATEST_VO2_MAX] = par0
                 else -> {
                     false
                 }
             }
 
         }
+
+
 
         withContext(Dispatchers.IO){
             database.cardioDao().insertBpm(HeartBpm(
@@ -101,12 +110,32 @@ class PassiveDataRepository @Inject constructor(
         }
     }
 
+    suspend fun storeLatestLongData(par0: Long, par1: String) {
+        dataStore.edit { prefs ->
+            prefs[FIRST_TIMER] = false
+            when(par1){
+                "STEPS_DAILY" -> prefs[STEPS_DAILY] = par0
+                else -> {
+                    false
+                }
+            }
+
+        }
+
+      /*  withContext(Dispatchers.IO){
+            database.cardioDao().insertBpm(HeartBpm(
+                timestampStore =  cardioFormattedTime,
+                dataStored = par0)
+            )
+        }*/
+    }
+
     companion object {
         const val PREFERENCES_FILENAME = "passive_data_prefs"
         private val PASSIVE_DATA_ENABLED = booleanPreferencesKey("passive_data_enabled")
         private val LATEST_HEART_RATE = doublePreferencesKey("latest_heart_rate")
         private val LATEST_CALORIES = doublePreferencesKey("latest_calories")
-        private val LATEST_VO2_MAX = doublePreferencesKey("latest_vo2")
+        private val STEPS_DAILY = longPreferencesKey("latest_steps")
         private val FIRST_TIMER = booleanPreferencesKey("first_timer")
         /*
                 DataType.HEART_RATE_BPM,
@@ -124,9 +153,6 @@ fun List<SampleDataPoint<Double>>.latestDataRate(dType: String): Double? {
 
     when(dType){
         "HEART_RATE_BPM" -> targetDType = DataType.HEART_RATE_BPM
-        //"VO2_MAX" -> targetDType = DataType.VO2_MAX
-        "CALORIES" -> targetDType = DataType.CALORIES
-        //"STEPS" -> targetDType = DataType.STEPS
         else -> {
             targetDType = "None"
         }
@@ -147,31 +173,48 @@ fun List<SampleDataPoint<Double>>.latestDataRate(dType: String): Double? {
         .maxByOrNull { it.timeDurationFromBoot }?.value
 }
 
-fun List<IntervalDataPoint<Double>>.latestCalRate(dType: String): Double? {
+
+
+fun List<IntervalDataPoint<Double>>.latestIntervalDataPointSum(dType: String): Double? {
 
     var targetDType: Any = ""
 
     when(dType){
-        "HEART_RATE_BPM" -> targetDType = DataType.HEART_RATE_BPM
-        "CALORIES" -> targetDType = DataType.CALORIES
-        "VO2_MAX" -> targetDType = DataType.VO2_MAX
-        //"STEPS" -> targetDType = DataType.STEPS
+        "CALORIES_DAILY" -> targetDType = DataType.CALORIES_DAILY
         else -> {
             targetDType = "None"
         }
     }
 
     return this
-        .filter { it.dataType == DataType.HEART_RATE_BPM }
+        .filter { it.dataType == targetDType }
         .filter {
-            it.accuracy == null ||
-                    setOf(
-                        ACCURACY_HIGH,
-                        ACCURACY_MEDIUM
-                    ).contains((it.accuracy as HeartRateAccuracy).sensorStatus)
+            it.accuracy == null
         }
         .filter {
             it.value > 0
         }
-        .maxByOrNull { it.value }?.value
+        .sumOf { it.value }
+}
+
+fun List<IntervalDataPoint<Long>>.latestIntervalDataPointSum(dType: String): Long? {
+
+    var targetDType: Any = ""
+
+    when(dType){
+        "STEPS_DAILY" -> targetDType = DataType.STEPS_DAILY
+        else -> {
+            targetDType = "None"
+        }
+    }
+
+    return this
+        .filter { it.dataType == targetDType }
+        .filter {
+            it.accuracy == null
+        }
+        .filter {
+            it.value > 0
+        }
+        .sumOf { it.value }
 }
