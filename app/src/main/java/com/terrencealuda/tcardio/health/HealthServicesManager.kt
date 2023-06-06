@@ -30,15 +30,15 @@ class HealthServicesManager @Inject constructor(
         val supportedDTypes = capabilities.supportedDataTypesPassiveMonitoring
         when(dataType){
             "HEART_RATE_BPM" -> targetDType = DataType.HEART_RATE_BPM
-            "CALORIES_DAILY" -> targetDType = DataType.CALORIES_DAILY
+            "CALORIES_DAILY" -> targetDType = DataType.CALORIES
             "STEPS_DAILY" -> targetDType = DataType.STEPS_DAILY
             else -> {
                 targetDType = "None"
             }
         }
-        /*Log.w("AVAILABILITY HEART_RATE_BPM", (DataType.HEART_RATE_BPM in supportedDTypes).toString())
+        Log.w("AVAILABILITY HEART_RATE_BPM", (DataType.HEART_RATE_BPM in supportedDTypes).toString())
         Log.w("AVAILABILITY CALORIES", (DataType.CALORIES in supportedDTypes).toString())
-        Log.w("AVAILABILITY STEPS_DAILY", (DataType.STEPS_DAILY in supportedDTypes).toString())*/
+        Log.w("AVAILABILITY STEPS_DAILY", (DataType.STEPS in supportedDTypes).toString())
         return (targetDType in supportedDTypes)
     }
 

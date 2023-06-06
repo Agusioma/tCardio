@@ -257,7 +257,7 @@ fun WearApp() {
                 val latestSteps by viewModel.latestSteps.collectAsState(initial = 0)
                 
                 stepsTaken = latestSteps.toString()
-                var tempPrevPrediction = lastTenPredictions[1].toString()
+                var tempPrevPrediction = lastTenPredictions[0].toString()
                 prevPrediction = "$tempPrevPrediction%"
                 userCals = latest_cals.toString()
                 thalachhTxt = thalachh.toString()

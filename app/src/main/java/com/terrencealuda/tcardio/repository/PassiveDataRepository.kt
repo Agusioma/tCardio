@@ -1,5 +1,6 @@
 package com.terrencealuda.tcardio.repository
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -157,7 +158,10 @@ fun List<SampleDataPoint<Double>>.latestDataRate(dType: String): Double? {
             targetDType = "None"
         }
     }
-
+    //Log.i("STORED HBP", this.map{it}.toString())
+    this.map{
+        Log.i("CHECKED: ", it.dataType.toString())
+    }
     return this
         .filter { it.dataType == targetDType }
         .filter {
@@ -185,19 +189,21 @@ fun List<IntervalDataPoint<Double>>.latestIntervalDataPointSum(dType: String): D
             targetDType = "None"
         }
     }
-
+    this.map{
+        Log.i("CHECKED2: ", it.dataType.toString())
+    }
     return this
         .filter { it.dataType == targetDType }
-        .filter {
+        /*.filter {
             it.accuracy == null
-        }
+        }*/
         .filter {
             it.value > 0
         }
         .sumOf { it.value }
 }
 
-fun List<IntervalDataPoint<Long>>.latestIntervalDataPointSum(dType: String): Long? {
+fun List<IntervalDataPoint<Long>>.latestIntervalLongDataPointSum(dType: String): Long? {
 
     var targetDType: Any = ""
 
@@ -207,12 +213,15 @@ fun List<IntervalDataPoint<Long>>.latestIntervalDataPointSum(dType: String): Lon
             targetDType = "None"
         }
     }
-
+    this.map{
+        Log.i("CHECKED3: ", it.dataType.toString())
+        Log.i("CHECKED3: ", it.value.toString())
+    }
     return this
         .filter { it.dataType == targetDType }
-        .filter {
+        /*.filter {
             it.accuracy == null
-        }
+        }*/
         .filter {
             it.value > 0
         }
