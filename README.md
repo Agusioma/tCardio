@@ -91,9 +91,9 @@ A SmartWatch app built on WearOS that helps in heart disease prediction.
 
 ![](shot3.png)
 
-![](shot4.png)
-
 ![](shot1.png)
+
+![](shot4.png)
 
 <!-- GETTING STARTED 
 ## Getting Started
