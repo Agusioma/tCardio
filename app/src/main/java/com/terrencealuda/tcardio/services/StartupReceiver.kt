@@ -1,4 +1,4 @@
-package com.terrencealuda.tcardio
+package com.terrencealuda.tcardio.services
 
 import android.content.BroadcastReceiver
 import android.content.Context

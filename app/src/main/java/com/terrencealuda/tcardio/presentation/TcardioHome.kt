@@ -220,41 +220,67 @@ fun WearApp() {
                     if (uiState is UiState.Startup) {
                         item { CustomCircularProgressBar() }
                     } else {
-                    item { ScreenTitle(childTextMods, "tCardio") }
-                    item { ScreenBigTitle(childTextMods, "Today") }
-                    item {
+                        item { ScreenTitle(childTextMods, "tCardio") }
+                        item { ScreenBigTitle(childTextMods, "Today") }
+                        item {
 
 
-                        CardioColumn(
-                            iconMods,
-                            childTextMods,
-                            heartRateBpmTxt,
-                            "Heart rate"
-                            /*Icons.Rounded.MonitorHeart*/
-                        )
-                    }
-                    /*item {
-                        CardioColumn(
-                            iconMods,
-                            childTextMods,
-                            "0",
-                            "Steps",
-                            Icons.Rounded.DirectionsWalk
-                        )
-                    }
-                    item { ScreenTitle(
-                        childTextMods
-                            .size(22.dp)
-                            .padding(top = 3.dp) , "Blood metrics") }*/
-                    item {
-                        CardioRow(
-                            textMods = childTextMods,
-                            countLabel1 = "0",
-                            healthDataLabel1 = "Cal",
-                            countLabel2 = thalachhTxt,
-                            healthDataLabel2 = "Thalachh"
-                        )
-                    }
+                            CardioColumn(
+                                iconMods,
+                                childTextMods,
+                                heartRateBpmTxt,
+                                "Heart rate",
+                                R.drawable.cardiology_48px,
+                                0xFF00cc7a
+                                /*Icons.Rounded.MonitorHeart*/
+                            )
+                        }
+                        item {
+
+
+                            CardioColumn(
+                                iconMods,
+                                childTextMods,
+                                "0",
+                                "Steps",
+                                R.drawable.steps_48px,
+                                0xFFCD7F32
+                                /*Icons.Rounded.MonitorHeart*/
+                            )
+                        }
+                        /*item {
+                            CardioColumn(
+                                iconMods,
+                                childTextMods,
+                                "0",
+                                "Steps",
+                                Icons.Rounded.DirectionsWalk
+                            )
+                        }
+                        item { ScreenTitle(
+                            childTextMods
+                                .size(22.dp)
+                                .padding(top = 3.dp) , "Blood metrics") }*/
+                        item {
+                            CardioRow(
+                                textMods = childTextMods,
+                                countLabel1 = "0.0",
+                                healthDataLabel1 = "kCal.",
+                                countLabel2 = thalachhTxt,
+                                healthDataLabel2 = "Thal."
+                            )
+                        }
+                        item {
+
+
+                            CardioColumnNoIcon(
+                                childTextMods,
+                                "52.3%s",
+                                "Your previous\n prediction",
+                                0xFFff6b00
+                                /*Icons.Rounded.MonitorHeart*/
+                            )
+                        }
 
                     /* item {
                          CardioColumnNoIcon(

@@ -46,20 +46,21 @@ fun CardioChip(
     mod: Modifier,
     iconModifier: Modifier = Modifier,
     displayText: String,
-    icon: ImageVector,
+    //icon: ImageVector,
+    iconResource: Int,
     detPos: Int = 0
 ) {
     val ourContext = LocalContext.current
     Chip(
-        modifier = mod.border(BorderStroke(1.5.dp, MaterialTheme.colors.primary), CircleShape),
+        modifier = mod.border(BorderStroke(1.5.dp, Color(0xFFadb6b8)), CircleShape),
         onClick = {
-            if(detPos == 1) {
+            if (detPos == 1) {
                 val statScreen = Intent(ourContext, MainActivity::class.java)
                 ourContext.startActivity(statScreen)
-            }else if(detPos == 2){
+            } else if (detPos == 2) {
                 val predScreen = Intent(ourContext, PredictionScreen::class.java)
                 ourContext.startActivity(predScreen)
-            }else{
+            } else {
 
             }
 
@@ -72,14 +73,15 @@ fun CardioChip(
                 fontFamily = tCardioTextFamily,
                 text = displayText,
                 maxLines = 2,
-                color = Color.LightGray,
+                color = Color(0xFFadb6b8),
                 overflow = TextOverflow.Ellipsis
             )
         },
         icon = {
 
             Icon(
-                imageVector = icon,
+                // imageVector = icon,
+                painter = painterResource(iconResource),
                 contentDescription = "triggers meditation action",
                 modifier = iconModifier
             )
@@ -95,41 +97,49 @@ fun CardioRow(
     countLabel2: String,
     healthDataLabel2: String
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround ,
-        modifier = Modifier.padding(top = 10.dp).fillMaxWidth()) {
-        Column( horizontalAlignment = Alignment.Start ) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxWidth()
+    ) {
+        Column(horizontalAlignment = Alignment.Start) {
             Text(
                 fontFamily = tCardioDigitFamily,
                 //modifier = textMods.padding(3.dp),
                 fontSize = 25.sp,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colors.primary,
+                color = Color(0xFFadb6b8),
                 text = countLabel1
             )
             Text(
                 fontFamily = tCardioTextFamily,
                 //modifier = textMods,
-                textAlign = TextAlign.Start ,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFFe62000),
+                //color = Color(0xFFe62000),
                 text = healthDataLabel1
             )
         }
 
-        Column( horizontalAlignment = Alignment.End){
+        Column(horizontalAlignment = Alignment.End) {
             Text(
                 fontFamily = tCardioDigitFamily,
                 //modifier = textMods.padding(3.dp),
                 fontSize = 25.sp,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colors.primary,
+                color = Color(0xFFadb6b8),
                 text = countLabel2
             )
             Text(
                 fontFamily = tCardioTextFamily,
                 //modifier = textMods,
-                textAlign = TextAlign.Start ,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFFe62000),
+                //color = Color(0x8ffcd7f32),
                 text = healthDataLabel2
             )
         }
@@ -143,7 +153,9 @@ fun CardioColumn(
     iconModifier: Modifier,
     textMods: Modifier,
     countLabel: String,
-    healthDataLabel: String
+    healthDataLabel: String,
+    iconResource: Int,
+    textColor: Long
     /*itemIcon: ImageVector*/
 ) {
     Column(
@@ -152,7 +164,7 @@ fun CardioColumn(
     ) {
         Icon(
             /*imageVector = itemIcon,*/
-            painter = painterResource(R.drawable.cardiology_48px),
+            painter = painterResource(iconResource),
             contentDescription = "triggers meditation action",
             modifier = iconModifier
         )
@@ -161,14 +173,14 @@ fun CardioColumn(
             modifier = textMods.padding(3.dp),
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
-            color = Color(0xFF00cc7a),
+            color = Color(textColor),
             text = countLabel
         )
         Text(
-            fontFamily = tCardioDigitFamily,
+            fontFamily = tCardioTextFamily,
             modifier = textMods,
             textAlign = TextAlign.Center,
-            color = Color(0xFF00cc7a),
+            color = Color(textColor),
             text = healthDataLabel
         )
     }
@@ -178,25 +190,27 @@ fun CardioColumn(
 fun CardioColumnNoIcon(
     textMods: Modifier,
     countLabel: String,
-    healthDataLabel: String
+    healthDataLabel: String,
+    textColor: Long
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(top = 10.dp)
+        modifier = Modifier.padding(top = 10.dp, bottom = 5.dp)
     ) {
         Text(
             fontFamily = tCardioDigitFamily,
             modifier = textMods.padding(3.dp),
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.primary,
+            color = Color(textColor/*0xFFadb6b888*/),
             text = countLabel
         )
         Text(
             fontFamily = tCardioDigitFamily,
             modifier = textMods,
             textAlign = TextAlign.Center,
-            color = Color(0xFF999999),
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFFadb6b8),
             text = healthDataLabel
         )
     }
@@ -214,7 +228,7 @@ fun ScreenTitle(mod: Modifier, titleText: String) {
 }
 
 @Composable
-fun ScreenBigTitle(mod: Modifier, titleText:String) {
+fun ScreenBigTitle(mod: Modifier, titleText: String) {
     Text(
         fontFamily = tCardioTextFamily,
         modifier = mod,
@@ -227,12 +241,13 @@ fun ScreenBigTitle(mod: Modifier, titleText:String) {
 }
 
 @Composable
-fun CustomCircularProgressBar(){
+fun CustomCircularProgressBar() {
     CircularProgressIndicator(
         modifier = Modifier.size(45.dp),
         trackColor = Color(0xFF00cc7a),
         indicatorColor = Color.Black,
-        strokeWidth = 4.dp)
+        strokeWidth = 4.dp
+    )
 
 }
 

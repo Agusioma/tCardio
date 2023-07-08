@@ -6,6 +6,7 @@ import androidx.health.services.client.HealthServicesClient
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import com.terrencealuda.tcardio.daggerhilt.TAG
+import com.terrencealuda.tcardio.services.PassiveDataService
 import javax.inject.Inject
 
 /**
