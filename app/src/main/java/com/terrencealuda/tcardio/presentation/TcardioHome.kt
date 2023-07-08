@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.terrencealuda.tcardio.R
 
 @AndroidEntryPoint
 class TcardioHome : ComponentActivity() {
@@ -149,45 +150,49 @@ fun WearApp() {
 
     TCardioTheme {
 
-            val listState = rememberScalingLazyListState()
+        val listState = rememberScalingLazyListState()
 
-            val childrenMods = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 12.dp,
-                    end = 12.dp,
-                    top = 8.dp,
-                    bottom = 8.dp
-                )
+        val childrenMods = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 12.dp,
+                end = 12.dp,
+                top = 8.dp,
+                bottom = 8.dp
+            )
 
-            val childTextMods = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 12.dp,
-                    end = 12.dp,
-                    top = 1.dp,
-                    bottom = 1.dp
-                )
+        val childTextMods = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 12.dp,
+                end = 12.dp,
+                top = 1.dp,
+                bottom = 1.dp
+            )
 
-            val iconMods = Modifier
-                .size(36.dp)
-                .wrapContentSize(align = Alignment.Center)
+        val iconMods = Modifier
+            .size(36.dp)
+            .wrapContentSize(align = Alignment.Center)
 
-            Scaffold(
-                timeText = {
-                    if (!listState.isScrollInProgress) {
-                        TimeText()
-                    }
-                },
-                modifier = Modifier.padding(top = 0.dp),
-                vignette = {
-                    Vignette(vignettePosition = VignettePosition.TopAndBottom)
-                },
-                positionIndicator = {
-                    PositionIndicator(
-                        scalingLazyListState = listState
-                    )
+        val chipIconMods = Modifier
+            .size(24.dp)
+            .wrapContentSize(align = Alignment.Center)
+
+        Scaffold(
+            timeText = {
+                if (!listState.isScrollInProgress) {
+                    TimeText()
                 }
+            },
+            modifier = Modifier.padding(top = 0.dp),
+            vignette = {
+                Vignette(vignettePosition = VignettePosition.TopAndBottom)
+            },
+            positionIndicator = {
+                PositionIndicator(
+                    scalingLazyListState = listState
+                )
+            }
             ) {
                 val viewModel: MainViewModel = viewModel()
                 val uiState by viewModel.uiState.collectAsState()
@@ -275,7 +280,7 @@ fun WearApp() {
 
                             CardioColumnNoIcon(
                                 childTextMods,
-                                "52.3%s",
+                                "52.3%",
                                 "Your previous\n prediction",
                                 0xFFff6b00
                                 /*Icons.Rounded.MonitorHeart*/
@@ -289,33 +294,34 @@ fun WearApp() {
                              "Calories"
                          )
                      }*/
-                    item {
-                        CardioChip(
-                            childrenMods, iconMods, "Health data\nstatus",
-                            Icons.Outlined.HealthAndSafety,
-                            1
+                        item {
+                            CardioChip(
+                                childrenMods, chipIconMods, "Health data\nstatus",
 
-                        )
-                    }
-                    item {
-                        CardioChip(
-                            childrenMods, iconMods, "Heart Attack\n prediction",
-                            Icons.Rounded.OnlinePrediction,
-                            2
-                        )
-                    }
-                    item {
-                        CardioChip(
-                            childrenMods, iconMods, "Health Data\nstatistics",
-                            Icons.Rounded.StackedLineChart
-                        )
-                    }
-                    item {
-                        CardioChip(
-                            childrenMods, iconMods, "Settings",
-                            Icons.Outlined.Settings
-                        )
-                    }
+                                R.drawable.stethoscope_48px,
+                                1
+
+                            )
+                        }
+                        item {
+                            CardioChip(
+                                childrenMods, chipIconMods, "Check prediction",
+                                R.drawable.online_prediction_48px,
+                                2
+                            )
+                        }
+                        item {
+                            CardioChip(
+                                childrenMods, chipIconMods, "Health data\nstatistics",
+                                R.drawable.stacked_line_chart_48px
+                            )
+                        }
+                        item {
+                            CardioChip(
+                                childrenMods, chipIconMods, "Settings",
+                                R.drawable.settings_48px
+                            )
+                        }
                 }
             }
         }
