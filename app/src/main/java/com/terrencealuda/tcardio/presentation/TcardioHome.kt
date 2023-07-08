@@ -312,6 +312,12 @@ fun WearApp() {
                         }
                         item {
                             CardioChip(
+                                childrenMods, chipIconMods, "Exercises",
+                                R.drawable.fitness_center
+                            )
+                        }
+                        item {
+                            CardioChip(
                                 childrenMods, chipIconMods, "Health data\nstatistics",
                                 R.drawable.stacked_line_chart_48px
                             )
