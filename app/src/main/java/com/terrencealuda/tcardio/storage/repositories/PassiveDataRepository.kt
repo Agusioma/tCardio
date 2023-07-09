@@ -1,4 +1,4 @@
-package com.terrencealuda.tcardio.repository
+package com.terrencealuda.tcardio.storage.repositories
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

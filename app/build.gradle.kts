@@ -88,6 +88,9 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-support:0.4.2")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
 
+    // Datastore
+    implementation(libs.datastore.preferences)
+
 // General compose dependencies
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.ui.tooling.preview)
@@ -140,7 +143,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     //composescope
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation(libs.lifecycle.viewmodel.compose)
 
     //room
     implementation("androidx.room:room-runtime:2.5.2")
