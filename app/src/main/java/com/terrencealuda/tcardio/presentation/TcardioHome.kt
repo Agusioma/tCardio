@@ -91,56 +91,12 @@ class TcardioHome : ComponentActivity() {
                     heartRateBpm = 0.0.toString()
                 }
 
-
-                /* latestNewsViewModel.uiState.collect { uiState ->
-                     // New value received
-                     when (uiState) {
-                         is LatestNewsUiState.Success -> showFavoriteNews(uiState.news)
-                         is LatestNewsUiState.Error -> showError(uiState.exception)
-                     }
-                 }*/
             }
         }
 
-        /* lifecycleScope.launchWhenStarted {
-           //  var hey = mainViewModel.firsttimercheck.collect()
-           //  if(hey.equals(false)) {
-                 mainViewModel.latestAvgBpms.collect {
-                     val df = DecimalFormat("#.#")
-                     df.roundingMode = RoundingMode.DOWN
-                     thalachh = df.format(it)
-                 }
-          /*   }else{
-                 thalachh = 0.0.toString()
-             }*/
-         }*/
-        /* lifecycleScope.launchWhenStarted {
-            // var hey = mainViewModel.firsttimercheck.collect()
-            // if(hey.equals(false)) {
-                 mainViewModel.lastBpm.collect {
-                     heartRateBpm = it.toString()
-                 }
-            /* }else{
-                 heartRateBpm = 0.0.toString()
-             }*/
-
-
-         }*/
-        /*lifecycleScope.launch(Dispatchers.Main) {
-            mainViewModel.lastBpm.collect {
-                Log.i("IIII", it.toString())
-            }
-        }*/
-
-        /*setContent {
-            WearApp(heartRateBpm, calMeasured, thalachh)
-        }*/
         setContent {
             WearApp()
         }
-        /*setContent {
-            WearApp(heartRateBpm, calMeasured, thalachh)
-        }*/
     }
 }
 
