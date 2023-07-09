@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
 }
@@ -25,7 +26,12 @@ android {
     buildTypes {
         named("release") {
             isMinifyEnabled = false
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            )
         }
     }
     buildFeatures {
@@ -67,55 +73,71 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.0")
 
     // Hilt dependency injection
-    implementation("com.google.dagger:hilt-android:2.43.2")
-    kapt("com.google.dagger:hilt-android-compiler:2.43.2")
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    /*    implementation("com.google.dagger:hilt-android:2.43.2")
+        kapt("com.google.dagger:hilt-android-compiler:2.43.2")
+        implementation("androidx.hilt:hilt-work:1.0.0")
+        kapt("androidx.hilt:hilt-compiler:1.0.0")
 
-    implementation("androidx.compose.ui:ui:1.2.0-alpha05")
-    implementation("androidx.wear.compose:compose-material:1.3.0-alpha01")
-    implementation("androidx.wear.compose:compose-foundation:1.3.0-alpha01")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-alpha05")
-    implementation("androidx.activity:activity-compose:1.7.2")
+        implementation("androidx.compose.ui:ui:1.2.0-alpha05")
+        implementation("androidx.wear.compose:compose-material:1.3.0-alpha01")
+        implementation("androidx.wear.compose:compose-foundation:1.3.0-alpha01")
+        implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-alpha05")
+        implementation("androidx.activity:activity-compose:1.7.2")*/
     implementation("org.tensorflow:tensorflow-lite:2.9.0")
     implementation("org.tensorflow:tensorflow-lite-gpu:2.10.0")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.2")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
 
-    // Testing
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.0-alpha05")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0-alpha05")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0-alpha05")
-
+// General compose dependencies
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.ui.tooling.preview)
 
     // Compose for Wear OS Dependencies
-    implementation("androidx.wear.compose:compose-material:1.3.0-alpha01")
-    implementation("androidx.compose.material:material-icons-extended:1.2.0-alpha05")
+    implementation(libs.wear.compose.material)
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation(libs.androidx.wear)
+    implementation(libs.androidx.compose.runtime)
 
-    // Wear
-    implementation("androidx.wear:wear:1.2.0")
+    // Foundation is additive, so you can use the mobile version in your Wear OS app.
+    implementation(libs.wear.compose.foundation)
 
-    // Health Services
-    implementation("androidx.health:health-services-client:1.0.0-beta03")
+    implementation(libs.guava)
+    implementation(libs.androidx.concurrent)
+
+    //Wear OS Compose Navigation
+    implementation(libs.compose.wear.navigation)
+    implementation(libs.androidx.compose.navigation)
+
+    //Wear Health Services
+    implementation(libs.androidx.health.services)
 
 
-    // Used to bridge between Futures and coroutines
-    implementation("com.google.guava:guava:30.1.1-android")
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
+    // Lifecycle components
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.common.java8)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.runtime.livedata)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
-    // Datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-service:2.6.1")
+    // Ongoing Activity
+    implementation(libs.wear.ongoing.activity)
 
-    // WorkManager
-    implementation("androidx.work:work-runtime:2.8.1")
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    // Hilt
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 
-    // Material
-    implementation("com.google.android.material:material:1.9.0")
+
+    // Testing
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.test.ext.junit)
+    androidTestImplementation(libs.test.espresso.core)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.tooling)
 
     //composescope
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
