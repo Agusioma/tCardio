@@ -55,11 +55,14 @@ fun CardioChip(
         modifier = mod.border(BorderStroke(1.5.dp, Color(0xFFadb6b8)), CircleShape),
         onClick = {
             if (detPos == 1) {
-                val statScreen = Intent(ourContext, MainActivity::class.java)
-                ourContext.startActivity(statScreen)
+                /*val statScreen = Intent(ourContext, MainActivity::class.java)
+                ourContext.startActivity(statScreen)*/
             } else if (detPos == 2) {
                 val predScreen = Intent(ourContext, PredictionScreen::class.java)
                 ourContext.startActivity(predScreen)
+            } else if (detPos == 3) {
+                val exerciseScreen = Intent(ourContext, ExerciseActivity::class.java)
+                ourContext.startActivity(exerciseScreen)
             } else {
 
             }

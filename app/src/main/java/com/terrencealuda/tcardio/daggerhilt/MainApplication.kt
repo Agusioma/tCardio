@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.terrencealuda.tcardio.repository.PassiveDataRepository.Companion.PREFERENCES_FILENAME
+import com.terrencealuda.tcardio.storage.repositories.PassiveDataRepository.Companion.PREFERENCES_FILENAME
 import com.terrencealuda.tcardio.storage.room.TCardioDatabase
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

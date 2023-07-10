@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.terrencealuda.tcardio.MainViewModel
 import com.terrencealuda.tcardio.databinding.ActivityPredictionScreenBinding
 import com.terrencealuda.tcardio.predictor.HeartPredictor
-import com.terrencealuda.tcardio.repository.PassiveDataRepository
+import com.terrencealuda.tcardio.storage.repositories.PassiveDataRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

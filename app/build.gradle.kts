@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+
 }
 
 android {
@@ -41,17 +42,17 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         freeCompilerArgs += "-Xjvm-default=all"
     }
     namespace = "com.terrencealuda.tcardio"
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.4.1"
     }
     packagingOptions {
         resources {
@@ -87,7 +88,7 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-gpu:2.10.0")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.2")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
-
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     // Datastore
     implementation(libs.datastore.preferences)
 
@@ -133,6 +134,11 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
 
+    // Hilt dependency injection
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+
 
     // Testing
 
@@ -144,6 +150,20 @@ dependencies {
 
     //composescope
     implementation(libs.lifecycle.viewmodel.compose)
+
+    // WorkManager
+    implementation("androidx.work:work-runtime:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
+    val appcompat_version = "1.6.1"
+
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // For loading and tinting drawables on older versions of the platform
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+
+    // Material
+    implementation("com.google.android.material:material:1.9.0")
+
 
     //room
     implementation("androidx.room:room-runtime:2.5.2")

@@ -12,7 +12,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.terrencealuda.tcardio.daggerhilt.TAG
 import com.terrencealuda.tcardio.health.HealthServicesManager
-import com.terrencealuda.tcardio.repository.PassiveDataRepository
+import com.terrencealuda.tcardio.storage.repositories.PassiveDataRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.AndroidEntryPoint

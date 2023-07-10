@@ -3,7 +3,7 @@ package com.terrencealuda.tcardio
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terrencealuda.tcardio.health.HealthServicesManager
-import com.terrencealuda.tcardio.repository.PassiveDataRepository
+import com.terrencealuda.tcardio.storage.repositories.PassiveDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

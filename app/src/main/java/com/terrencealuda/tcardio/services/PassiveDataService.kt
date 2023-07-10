@@ -2,9 +2,9 @@ package com.terrencealuda.tcardio.services
 
 import androidx.health.services.client.PassiveListenerService
 import androidx.health.services.client.data.*
-import com.terrencealuda.tcardio.repository.PassiveDataRepository
-import com.terrencealuda.tcardio.repository.latestCalRate
-import com.terrencealuda.tcardio.repository.latestDataRate
+import com.terrencealuda.tcardio.storage.repositories.PassiveDataRepository
+import com.terrencealuda.tcardio.storage.repositories.latestCalRate
+import com.terrencealuda.tcardio.storage.repositories.latestDataRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

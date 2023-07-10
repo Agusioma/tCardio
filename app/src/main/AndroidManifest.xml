@@ -6,8 +6,12 @@
 
     <uses-feature android:name="android.hardware.type.watch" /> <!-- For receiving heart rate data. -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- Needed in order to re-register for data on device startup. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--
  When an app targets Android 11 (API level 30) or higher and queries for information about
          the other apps that are installed on a device, the system filters this information by
@@ -74,10 +78,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+
+        <!-- Receiver that re-registers for background data after a device restart. -->
         <service
             android:name=".services.PassiveDataService"
             android:exported="true"
-            android:permission="com.google.android.wearable.healthservices.permission.PASSIVE_DATA_BINDING" /> <!-- Receiver that re-registers for background data after a device restart. -->
+            android:permission="com.google.android.wearable.healthservices.permission.PASSIVE_DATA_BINDING" />
+        <!-- Add foreground service location permission for exercise tracking -->
+        <service
+            android:name=".services.ForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="location" />
         <receiver
             android:name=".services.StartupReceiver"
             android:exported="true">

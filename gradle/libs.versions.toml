@@ -8,7 +8,6 @@ androidx-wear-tiles = "1.0.1"
 androidx-wear-watchface = "1.0.1"
 compose = "1.2.0-rc01"
 ktlint = "0.41.0"
-org-jetbrains-kotlin = "1.6.21"
 org-jetbrains-kotlinx = "1.6.0"
 health-services = "1.0.0-beta02"
 dagger = "2.43.2"
@@ -52,7 +51,6 @@ lifecycle-viewmodel-compose = {module = "androidx.lifecycle:lifecycle-viewmodel-
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger"}
 
 
