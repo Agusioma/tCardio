@@ -78,6 +78,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+        <activity
+            android:name=".presentation.ExerciseActivity"
+            android:exported="true"
+            android:label="@string/title_activity_prediction_screen">
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN" />
+
+                   <category android:name="android.intent.category.LAUNCHER" />
+               </intent-filter>-->
+        </activity>
 
         <!-- Receiver that re-registers for background data after a device restart. -->
         <service

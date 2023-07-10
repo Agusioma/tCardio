@@ -1,6 +1,7 @@
 package com.terrencealuda.tcardio.presentation
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -61,6 +62,7 @@ fun CardioChip(
                 val predScreen = Intent(ourContext, PredictionScreen::class.java)
                 ourContext.startActivity(predScreen)
             } else if (detPos == 3) {
+                Log.i("clicked", "clicked")
                 val exerciseScreen = Intent(ourContext, ExerciseActivity::class.java)
                 ourContext.startActivity(exerciseScreen)
             } else {

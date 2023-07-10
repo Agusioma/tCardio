@@ -269,7 +269,8 @@ fun WearApp() {
                         item {
                             CardioChip(
                                 childrenMods, chipIconMods, "Exercises",
-                                R.drawable.fitness_center
+                                R.drawable.fitness_center,
+                                3
                             )
                         }
                         item {

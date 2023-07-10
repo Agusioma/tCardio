@@ -6,6 +6,7 @@
     <string name="hello_world">From the Round world,\nHello, %1$s!</string>
     <string name="pred_caption">This is the probability of you getting a heart attack.</string>
     <string name="title_activity_prediction_screen">PredictionScreen</string>
+    <string name="title_activity_exercise_screen">ExerciseScreen</string>
     <string name="preparing_exercise">Preparing exercise</string>
     <string name="start">Start</string>
     <string name="starting_up">Starting up</string>

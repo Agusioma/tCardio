@@ -4,6 +4,8 @@
     <string name="last_measured">Last measured:</string>
     <string name="not_available">Not available on this device</string>
     <string name="title_activity_presentation._tcardio_home">presentation.TcardioHome</string>
+
+    <string name="title_activity_exercise_screen">ExerciseScreen</string>
     <string name="title_activity_tcardio_home">TcardioHome</string>
 
     <string name="pred_caption">This is the probability of you getting a heart attack.</string>
