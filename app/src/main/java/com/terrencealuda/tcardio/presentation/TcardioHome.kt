@@ -64,6 +64,12 @@ class TcardioHome : ComponentActivity() {
 
         permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
 
+        /*
+        Manifest.permission.BODY_SENSORS,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACTIVITY_RECOGNITION
+         */
+
         lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
             // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.

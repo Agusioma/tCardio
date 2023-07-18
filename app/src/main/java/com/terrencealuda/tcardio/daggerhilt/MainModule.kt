@@ -3,6 +3,8 @@ package com.terrencealuda.tcardio.daggerhilt
 import android.content.Context
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.HealthServicesClient
+import com.terrencealuda.tcardio.services.AndroidLogExerciseLogger
+import com.terrencealuda.tcardio.services.ExerciseLogger
 import com.terrencealuda.tcardio.predictor.HeartPredictor
 import com.terrencealuda.tcardio.storage.room.TCardioDatabase
 import dagger.Module
@@ -40,4 +42,7 @@ class MainModule {
     fun provideApplicationCoroutineScope(): CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+    @Singleton
+    @Provides
+    fun provideLogger(): ExerciseLogger = AndroidLogExerciseLogger()
 }

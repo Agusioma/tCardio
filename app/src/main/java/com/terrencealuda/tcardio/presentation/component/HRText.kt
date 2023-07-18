@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.exercisesamplecompose.presentation.component
+package com.terrencealuda.tcardio.presentation.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.Text
 
 @Composable
-fun HRText(hr: Double) {
-    Text(text = "$hr")
+fun HRText(hr: Double?) {
+    Text(text = "${hr ?: "--"}")
 }
 
 @Preview
 @Composable
 fun HRTextPreview() {
     HRText(hr = 80.0)
+}
+
+@Preview
+@Composable
+fun HRTextPreviewMissing() {
+    HRText(hr = null)
 }

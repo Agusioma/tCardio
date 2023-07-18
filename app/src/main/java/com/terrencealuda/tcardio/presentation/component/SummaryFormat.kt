@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.exercisesamplecompose.presentation.component
+package com.terrencealuda.tcardio.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +32,7 @@ import androidx.wear.compose.material.Text
 
 @Composable
 fun SummaryFormat(
-    value: String,
+    value: AnnotatedString,
     metric: String,
     modifier: Modifier = Modifier
 ) {
@@ -56,5 +58,5 @@ fun SummaryFormat(
 @Preview
 @Composable
 fun SummaryFormatPreview() {
-    SummaryFormat(value = "5.3", metric = "km")
+    SummaryFormat(value = buildAnnotatedString { append("5.3") }, metric = "km")
 }

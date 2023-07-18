@@ -49,6 +49,8 @@ android {
     kotlinOptions {
         jvmTarget = "17"
         freeCompilerArgs += "-Xjvm-default=all"
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=com.google.android.horologist.annotations.ExperimentalHorologistApi"
     }
     namespace = "com.terrencealuda.tcardio"
     composeOptions {
@@ -101,6 +103,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.3.1")
     implementation(libs.androidx.wear)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.ui.tooling)
 
     // Foundation is additive, so you can use the mobile version in your Wear OS app.
     implementation(libs.wear.compose.foundation)
@@ -124,6 +127,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.androidx.lifecycle.runtime.livedata)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.core.splashscreen)
 
 
     // Ongoing Activity
@@ -137,6 +141,10 @@ dependencies {
     // Hilt dependency injection
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
+    implementation(libs.horologist.health.composables)
 
 
 

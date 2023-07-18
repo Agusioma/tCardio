@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package com.example.exercisesamplecompose.presentation.component
+package com.terrencealuda.tcardio.presentation.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.Text
 
 @Composable
-fun CaloriesText(calories: Double) {
-    Text(text = formatCalories(calories).toString())
-
+fun CaloriesText(calories: Double?) {
+    if (calories != null)
+        Text(text = formatCalories(calories))
+    else
+        Text(text = "--")
 }
 
 @Preview

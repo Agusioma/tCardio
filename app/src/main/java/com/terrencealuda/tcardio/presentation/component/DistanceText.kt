@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.exercisesamplecompose.presentation.component
+package com.terrencealuda.tcardio.presentation.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.Text
 
 @Composable
-fun DistanceText(distance: Double) {
-    Text(text = formatDistanceKm(distance).toString())
+fun DistanceText(distance: Double?) {
+    Text(text = formatDistanceKm(distance))
 }
 
 @Preview
